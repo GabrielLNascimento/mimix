@@ -1,6 +1,5 @@
-import { createContext, useState } from "react";
-
-const GameContext = createContext(null);
+import { useState } from "react";
+import { GameContext } from "./GameContext";
 
 export function GameProvider({ children }) {
     const [teams, setTeams] = useState([]);

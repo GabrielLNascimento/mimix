@@ -1,14 +1,14 @@
 import "./Home.css"
 
 // component
-import Button from "../../components/Button"
+import ButtonLink from "../../components/ButtonLink"
 
 const Home = () => {
     return <>
         <div className="home-container">
             <h1 className="home-title">Mimix</h1>
-            <Button text="Jogar" path="/setup" />
-            <Button text="Informações" path="/" />
+            <ButtonLink text="Jogar" path="/setup" />
+            <ButtonLink text="Informações" path="/" />
         </div>
     </>
 }
