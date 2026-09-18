@@ -4,19 +4,24 @@ import { useGame } from "../../context/useGame.js";
 import "./Round.css";
 
 const Round = () => {
-    const { currentTeam, currentPlayer, generateRoundWords, nextTurn } =
-        useGame();
+    const {
+        currentTeam,
+        currentPlayer,
+        generateRoundWords,
+        nextTurn,
+        registerResult,
+    } = useGame();
     const [words, setWords] = useState([]);
     const [phase, setPhase] = useState("choose");
     const [chosen, setChosen] = useState(null);
-    const [timeLeft, setTimeLeft] = useState(3);
+    const [timeLeft, setTimeLeft] = useState(60);
     const hasGenerated = useRef(false);
     const navigate = useNavigate();
 
     useEffect(() => {
         if (hasGenerated.current) return;
         hasGenerated.current = true;
-        setWords(generateRoundWords(3));
+        setWords(generateRoundWords(5));
     }, [generateRoundWords]);
 
     useEffect(() => {
@@ -37,7 +42,7 @@ const Round = () => {
 
     const handleChosen = (word) => {
         setChosen(word);
-        setTimeLeft(3);
+        setTimeLeft(60);
         setPhase("ready");
     };
 
@@ -45,14 +50,16 @@ const Round = () => {
         setPhase("play");
     };
 
-    const handleNext = () => {
+    const handleNext = (hit) => {
+        registerResult(hit);
+
         const status = nextTurn(); // avança player/equipe no contexto
 
         if (status === "fim") {
             navigate("/fim");
         } else {
             // reseta o Round para o próximo jogador
-            setWords(generateRoundWords(3));
+            setWords(generateRoundWords(5));
             setChosen(null);
             setTimeLeft(60);
             setPhase("choose");
@@ -93,6 +100,7 @@ const Round = () => {
                                 {word}
                             </button>
                         ))}
+                        <button onClick={handleEndGame} className="round-btnEnd">Encerrar Jogo</button>
                     </div>
                 )}
 
@@ -116,9 +124,12 @@ const Round = () => {
                         {timeLeft === 0 && (
                             <div className="end-round">
                                 <p className="">Tempo encerrado</p>
-                                <button onClick={handleNext}>✅ Acertou</button>
-                                <button>❌ Errou</button>
-                                <button onClick={handleEndGame}>Encerrar Jogo</button>
+                                <button onClick={() => handleNext(true)}>
+                                    ✅ Acertou
+                                </button>
+                                <button onClick={() => handleNext(false)}>
+                                    ❌ Errou
+                                </button>
                             </div>
                         )}
                     </div>

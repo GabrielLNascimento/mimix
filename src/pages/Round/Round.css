@@ -98,3 +98,14 @@ span.time-danger {
     padding: 10px 15px;
     margin: auto;
 }
+
+button.round-btnEnd {
+    background-color: rgb(255, 126, 126);
+    color: red;
+    border: 3px solid red;
+    width: fit-content;
+}
+
+button.round-btnEnd:hover {
+    background-color: rgb(248, 103, 103);
+}
