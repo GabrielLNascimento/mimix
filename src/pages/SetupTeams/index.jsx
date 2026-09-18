@@ -1,5 +1,6 @@
 import { useGame } from "../../context/useGame.js";
 import { Trash } from "lucide-react";
+import ButtonLink from "../../components/ButtonLink";
 import "./SetupTeams.css";
 
 const SetupTeams = () => {
@@ -11,6 +12,14 @@ const SetupTeams = () => {
         removePlayer,
         removeTeam,
     } = useGame();
+
+    const checkPlay = () => {
+        if (teams.length <= 1) {
+            return false;
+        } 
+        
+        return teams.every((team) => team.players.length >= 1);
+    };
 
     return (
         <>
@@ -45,7 +54,9 @@ const SetupTeams = () => {
                                             </button>
                                             <button
                                                 className="setup-btnAction"
-                                                onClick={() => removeTeam(team.id)}
+                                                onClick={() =>
+                                                    removeTeam(team.id)
+                                                }
                                             >
                                                 <Trash />
                                             </button>
@@ -86,6 +97,8 @@ const SetupTeams = () => {
                             ))}
                     </div>
                 </section>
+
+                {checkPlay() && <ButtonLink text="Começar" path="/round" />}
             </div>
         </>
     );
