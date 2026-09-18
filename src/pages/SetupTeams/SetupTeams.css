@@ -1,0 +1,126 @@
+.setup-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.setup-cabecalho {
+    color: var(--text);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.setup-cabecalho span {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.setup-title {
+    font-size: 68px;
+    text-shadow: var(--shadow);
+}
+
+.setup-section {
+    width: 100%;
+    text-align: center;
+}
+
+.setup-section h2 {
+    color: white;
+    font-size: 58px;
+}
+
+.setup-containerTeams {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.setup-cardTeam {
+    color: var(--text);
+    border: 3px solid var(--primary-darker);
+    padding: 10px 20px;
+    border-radius: 15px;
+    background-color: var(--secondary);
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    max-width: 500px;
+    gap: 15px;
+}
+
+.setup-cardTem-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.setup-cardItem-info-acts {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+
+
+.setup-cardTeam span {
+    align-self: flex-start;
+    font-size: 28px;
+    text-decoration: underline;
+    
+}
+
+.setup-btnAction {
+    border: 3px solid var(--border-dark);
+    font-size: 15px;
+    width: fit-content;
+    padding: 5px 10px;
+    border-radius: 15px;
+    background-color: var(--secondary);
+    color: var(--text);
+    font-weight: bold;
+    cursor: pointer;
+    transition: .2s;
+    box-shadow: var(--shadow);
+    font-family: Arial, Helvetica, sans-serif;
+    text-decoration: none;
+}
+
+.setup-btnAction:hover {
+    background-color: var(--secondary-hover);
+    transform: scale(1.1);
+}
+
+.input-player {
+    border: 0;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: var(--primary-darker);
+    color: var(--text);
+    font-size: 20px;
+    flex: 1;
+}
+
+.setup-cardTeam-player {
+    display: flex;
+    gap: 20px;
+}
+
+.icon-trash {
+    background-color: var(--primary-darker);
+}
+
+
+.input-player::placeholder {
+    color: var(--text);
+}
+
+button.btnAddPlayer {
+    background-color: var(--text);
+    color: var(--background);
+}
