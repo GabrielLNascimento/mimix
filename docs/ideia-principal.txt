@@ -1,0 +1,37 @@
+Estou pensando em criar um jogo online (imagem e ação)
+
+## Tecnologias para usar
+- React + vite
+- React router
+
+## o que tenho que definir:
+    - paleta de cores
+    - fonte
+
+## Ideias principais
+    1. Pagina Inicial
+        - Titulo do jogo
+        - botão para começar
+        - botão explicando como funciona 
+
+    2. Definir Equipes
+        - Quero que tenha um botão para adicionar equipe
+        - E para cada equipe eu posso adicionar os nomes
+        - um botão que define quantos rounds cada pessoa vai jogar
+        - botão para jogar
+    
+    3. Rounds
+        - na proxima tela tem que aparecer:
+            - nome da equipe
+            - nome da pessoa que vai ver as palavras
+            - botão para revelar as palavras
+        
+        - Quero que sempre apareça 5 palavras aleatorias e diferentes uma das outras
+        - Quando clicar na palavra, e depois clicar em começar quero que apareça o cronometro de 60 segundos para fazer a mimica
+        - Quando acabar o tempo fique tempo encerrado
+        - Apareça dai um botão de:
+            - Equipe acertou
+            - Equipe errou
+        - Depois de clicado, apareça um botão de próximo round
+
+    
