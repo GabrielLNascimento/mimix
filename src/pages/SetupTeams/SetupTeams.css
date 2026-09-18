@@ -65,15 +65,13 @@
     display: flex;
     align-items: center;
     gap: 5px;
+
 }
-
-
 
 .setup-cardTeam span {
     align-self: flex-start;
     font-size: 28px;
     text-decoration: underline;
-    
 }
 
 .setup-btnAction {
@@ -86,7 +84,7 @@
     color: var(--text);
     font-weight: bold;
     cursor: pointer;
-    transition: .2s;
+    transition: 0.2s;
     box-shadow: var(--shadow);
     font-family: Arial, Helvetica, sans-serif;
     text-decoration: none;
@@ -116,7 +114,6 @@
     background-color: var(--primary-darker);
 }
 
-
 .input-player::placeholder {
     color: var(--text);
 }
@@ -124,4 +121,54 @@
 button.btnAddPlayer {
     background-color: var(--text);
     color: var(--background);
+}
+
+@media (max-width: 600px) {
+    .setup-container {
+        width: 95%;
+    }
+
+    .setup-title {
+        font-size: 42px;
+    }
+
+    .setup-section h2 {
+        font-size: 36px;
+    }
+
+    .setup-cardTeam {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 12px;
+    }
+
+    .setup-cardTeam-player {
+        width: 100%;
+        display: flex;
+        gap: 8px;
+        box-sizing: border-box;
+    }
+
+    .setup-cardTem-info {
+        flex-direction: column;
+    }
+
+    .setup-cardItem-info-acts {
+        display: flex;
+        align-self: flex-start;
+    }
+
+    .input-player {
+        min-width: 0;
+        width: 100%;
+        box-sizing: border-box;
+        font-size: 16px;
+        padding: 10px 12px;
+    }
+
+    .setup-btnAction {
+        flex-shrink: 0;
+        font-size: 14px;
+        padding: 8px 10px;
+    }
 }
