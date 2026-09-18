@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { GameContext } from "./GameContext";
+import { getRandomWords } from "../db/words.js";
 
 export function GameProvider({ children }) {
     const [teams, setTeams] = useState([]);
@@ -89,20 +90,21 @@ export function GameProvider({ children }) {
     }
 
     function nextTurn() {
-        const team = teams[currentTeamIndex];
-        const isLastPlayer = currentPlayerIndex >= team.players.length - 1;
-        const isLastTeam = currentTeamIndex >= teams.length - 1;
+        const nextTeamIndex = (currentTeamIndex + 1) % teams.length;
 
-        if (isLastPlayer && isLastTeam) {
-            return "fim";
+        // Se voltamos para a primeira equipe,
+        // significa que todas as equipes jogaram.
+        const isNewRound = nextTeamIndex === 0;
+
+        if (isNewRound) {
+            setCurrentPlayerIndex((prev) => {
+                const currentTeam = teams[currentTeamIndex];
+
+                return (prev + 1) % currentTeam.players.length;
+            });
         }
 
-        if (isLastPlayer) {
-            setCurrentTeamIndex((i) => i + 1);
-            setCurrentPlayerIndex(0);
-        } else {
-            setCurrentPlayerIndex((i) => i + 1);
-        }
+        setCurrentTeamIndex(nextTeamIndex);
 
         return "continua";
     }
@@ -124,6 +126,15 @@ export function GameProvider({ children }) {
         setCurrentPlayerIndex(0);
         setUsedWords([]);
         setSelectedWord(null);
+    }
+
+    // ─── Palavras───────────────────────────────────────────
+    function generateRoundWords(n = 3) {
+        const words = getRandomWords(usedWords, n);
+
+        setUsedWords((prev) => [...prev, ...words]);
+
+        return words;
     }
 
     // ─── Atalhos úteis ─────────────────────────────────────
@@ -157,6 +168,7 @@ export function GameProvider({ children }) {
                 nextTurn,
                 resetGame,
                 fullReset,
+                generateRoundWords,
             }}
         >
             {children}

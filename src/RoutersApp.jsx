@@ -5,6 +5,7 @@ import { GameProvider } from "./context/GameContext.jsx";
 import Home from "./pages/Home";
 import SetupTeams from "./pages/SetupTeams";
 import Round from "./pages/Round";
+import Result from "./pages/Result";
 
 const RoutersApp = () => {
     return (
@@ -15,6 +16,7 @@ const RoutersApp = () => {
                         <Route path="/" element={<Home />} />
                         <Route path="/setup" element={<SetupTeams />} />
                         <Route path="/round" element={<Round />} />
+                        <Route path="/fim" element={<Result />} />
                     </Routes>
                 </GameProvider>
             </BrowserRouter>
