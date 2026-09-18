@@ -1,0 +1,166 @@
+import { createContext, useState } from "react";
+
+const GameContext = createContext(null);
+
+export function GameProvider({ children }) {
+    const [teams, setTeams] = useState([]);
+    const [roundsPerPlayer, setRoundsPerPlayer] = useState(2);
+    const [currentTeamIndex, setCurrentTeamIndex] = useState(0);
+    const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
+    const [usedWords, setUsedWords] = useState([]);
+    const [selectedWord, setSelectedWord] = useState(null);
+
+    // ─── Equipes ───────────────────────────────────────────
+    function addTeam() {
+        setTeams((prev) => [
+            ...prev,
+            {
+                id: Date.now(),
+                name: `Equipe ${prev.length + 1}`,
+                players: [],
+                score: 0,
+                hits: 0,
+                misses: 0,
+            },
+        ]);
+    }
+
+    function removeTeam(teamId) {
+        setTeams((prev) => prev.filter((t) => t.id !== teamId));
+    }
+
+    function updateTeam(teamId, changes) {
+        setTeams((prev) =>
+            prev.map((t) => (t.id === teamId ? { ...t, ...changes } : t)),
+        );
+    }
+
+    // ─── Jogadores ─────────────────────────────────────────
+    function addPlayer(teamId) {
+        setTeams((prev) =>
+            prev.map((t) => {
+                if (t.id !== teamId) return t;
+                return {
+                    ...t,
+                    players: [...t.players, { id: Date.now(), name: "" }],
+                };
+            }),
+        );
+    }
+
+    function removePlayer(teamId, playerId) {
+        setTeams((prev) =>
+            prev.map((t) => {
+                if (t.id !== teamId) return t;
+                return {
+                    ...t,
+                    players: t.players.filter((p) => p.id !== playerId),
+                };
+            }),
+        );
+    }
+
+    function updatePlayer(teamId, playerId, name) {
+        setTeams((prev) =>
+            prev.map((t) => {
+                if (t.id !== teamId) return t;
+                return {
+                    ...t,
+                    players: t.players.map((p) =>
+                        p.id === playerId ? { ...p, name } : p,
+                    ),
+                };
+            }),
+        );
+    }
+
+    // ─── Jogo ──────────────────────────────────────────────
+    function registerResult(hit) {
+        setTeams((prev) =>
+            prev.map((t, i) => {
+                if (i !== currentTeamIndex) return t;
+                return {
+                    ...t,
+                    score: hit ? t.score + 1 : t.score,
+                    hits: hit ? t.hits + 1 : t.hits,
+                    misses: hit ? t.misses : t.misses + 1,
+                };
+            }),
+        );
+    }
+
+    function nextTurn() {
+        const team = teams[currentTeamIndex];
+        const isLastPlayer = currentPlayerIndex >= team.players.length - 1;
+        const isLastTeam = currentTeamIndex >= teams.length - 1;
+
+        if (isLastPlayer && isLastTeam) {
+            return "fim";
+        }
+
+        if (isLastPlayer) {
+            setCurrentTeamIndex((i) => i + 1);
+            setCurrentPlayerIndex(0);
+        } else {
+            setCurrentPlayerIndex((i) => i + 1);
+        }
+
+        return "continua";
+    }
+
+    function resetGame() {
+        setTeams((prev) =>
+            prev.map((t) => ({ ...t, score: 0, hits: 0, misses: 0 })),
+        );
+        setCurrentTeamIndex(0);
+        setCurrentPlayerIndex(0);
+        setUsedWords([]);
+        setSelectedWord(null);
+    }
+
+    function fullReset() {
+        setTeams([]);
+        setRoundsPerPlayer(2);
+        setCurrentTeamIndex(0);
+        setCurrentPlayerIndex(0);
+        setUsedWords([]);
+        setSelectedWord(null);
+    }
+
+    // ─── Atalhos úteis ─────────────────────────────────────
+    const currentTeam = teams[currentTeamIndex];
+    const currentPlayer = currentTeam?.players[currentPlayerIndex];
+
+    return (
+        <GameContext.Provider
+            value={{
+                // Estado
+                teams,
+                roundsPerPlayer,
+                setRoundsPerPlayer,
+                currentTeamIndex,
+                currentPlayerIndex,
+                usedWords,
+                setUsedWords,
+                selectedWord,
+                setSelectedWord,
+                // Atalhos
+                currentTeam,
+                currentPlayer,
+                // Funções
+                addTeam,
+                removeTeam,
+                updateTeam,
+                addPlayer,
+                removePlayer,
+                updatePlayer,
+                registerResult,
+                nextTurn,
+                resetGame,
+                fullReset,
+            }}
+        >
+            {children}
+        </GameContext.Provider>
+    );
+}

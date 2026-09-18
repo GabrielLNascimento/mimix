@@ -13,6 +13,7 @@
     color: var(--text);
     font-size: 68px;
     text-align: center;
+    text-shadow: var(--shadow);
 }
 
 .home-button {
@@ -26,6 +27,7 @@
     font-weight: bold;
     cursor: pointer;
     transition: .2s;
+    box-shadow: var(--shadow);
 }
 
 .home-button:hover {
