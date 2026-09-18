@@ -28,9 +28,12 @@
     cursor: pointer;
     transition: .2s;
     box-shadow: var(--shadow);
+    font-family: Arial, Helvetica, sans-serif;
+    text-decoration: none;
 }
 
 .home-button:hover {
     background-color: var(--secondary-hover);
     transform: scale(1.1);
+    
 }
