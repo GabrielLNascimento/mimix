@@ -38,7 +38,8 @@
 
 .word-options button,
 .play-phase button,
-.ready-phase button {
+.ready-phase button,
+.btn-reveal {
     width: 100%;
     max-width: 500px;
     margin: auto;
@@ -108,4 +109,29 @@ button.round-btnEnd {
 
 button.round-btnEnd:hover {
     background-color: rgb(248, 103, 103);
+}
+
+.word-info {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.toggle-word {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    margin: 0;
+    padding: 4px;
+    border: 0;
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+}
+
+.toggle-word:hover {
+    background: transparent;
+    color: var(--secondary-hover);
 }

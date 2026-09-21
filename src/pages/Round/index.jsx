@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router";
 import { useGame } from "../../context/useGame.js";
+import { Eye, EyeOff } from "lucide-react";
 import "./Round.css";
 
 const Round = () => {
@@ -12,9 +13,10 @@ const Round = () => {
         registerResult,
     } = useGame();
     const [words, setWords] = useState([]);
-    const [phase, setPhase] = useState("choose");
+    const [phase, setPhase] = useState("reveal");
     const [chosen, setChosen] = useState(null);
     const [timeLeft, setTimeLeft] = useState(60);
+    const [isWordVisible, setIsWordVisible] = useState(false);
     const hasGenerated = useRef(false);
     const navigate = useNavigate();
 
@@ -74,6 +76,7 @@ const Round = () => {
         <div className="round-container">
             <header className="round-cabecalho">
                 <h1 className="round-title">
+                    {phase === "reveal" && "Toque para revelar as palavras"}
                     {phase === "choose" && "Escolha uma palavra!"}
                     {phase === "ready" && "Você está pronto?"}
                     {phase === "play" && "Boa sorte!"}
@@ -84,12 +87,57 @@ const Round = () => {
                             {currentTeam?.name} - {currentPlayer?.name}
                         </>
                     )}
+                    {phase === "reveal" && (
+                        <>
+                            {currentTeam?.name} - {currentPlayer?.name}
+                        </>
+                    )}
+                    {phase === "play" && (
+                        <span className="round-info word-info">
+                            <button
+                                type="button"
+                                className="toggle-word"
+                                onClick={() =>
+                                    setIsWordVisible((visible) => !visible)
+                                }
+                                aria-label={
+                                    isWordVisible
+                                        ? "Ocultar palavra"
+                                        : "Mostrar palavra"
+                                }
+                                title={
+                                    isWordVisible
+                                        ? "Ocultar palavra"
+                                        : "Mostrar palavra"
+                                }
+                            >
+                                {isWordVisible ? (
+                                    <EyeOff size={22} />
+                                ) : (
+                                    <Eye size={22} />
+                                )}
+                            </button>
 
-                    {phase === "play" && <>Palavra: {chosen}</>}
+                            <span>
+                                Palavra: {isWordVisible ? chosen : "••••••"}
+                            </span>
+                        </span>
+                    )}
                 </span>
             </header>
 
             <section className="round-section">
+                {phase === "reveal" && (
+                    <>
+                        <button
+                            onClick={() => setPhase("choose")}
+                            className="btn-reveal"
+                        >
+                            Revelar palavras
+                        </button>
+                    </>
+                )}
+
                 {phase === "choose" && (
                     <div className="word-options">
                         {words.map((word) => (
@@ -100,14 +148,19 @@ const Round = () => {
                                 {word}
                             </button>
                         ))}
-                        <button onClick={handleEndGame} className="round-btnEnd">Encerrar Jogo</button>
+                        <button
+                            onClick={handleEndGame}
+                            className="round-btnEnd"
+                        >
+                            Encerrar Jogo
+                        </button>
                     </div>
                 )}
 
                 {phase === "ready" && (
                     <div className="ready-phase">
-                        <span className={"timeleft"}>
-                            {timeLeft <= 9 && `0${timeLeft}`}
+                        <span className="timeleft">
+                            {String(timeLeft).padStart(2, "0")}
                         </span>
                         <button onClick={handleStart}>Começar</button>
                     </div>
@@ -116,9 +169,15 @@ const Round = () => {
                 {phase === "play" && (
                     <div className="play-phase">
                         <span
-                            className={` ${timeLeft > 10 ? "timeleft" : ""} ${timeLeft < 10 ? "time-warning" : ""} ${timeLeft === 0 ? "time-danger" : ""}`}
+                            className={`${
+                                timeLeft === 0
+                                    ? "time-danger"
+                                    : timeLeft <= 10
+                                      ? "time-warning"
+                                      : "timeleft"
+                            }`}
                         >
-                            {timeLeft <= 9 && `0${timeLeft}`}
+                            {String(timeLeft).padStart(2, "0")}
                         </span>
 
                         {timeLeft === 0 && (
