@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { GameContext } from "./GameContext";
 import { getRandomWords } from "../db/words.js";
 
@@ -9,6 +9,18 @@ export function GameProvider({ children }) {
     const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
     const [usedWords, setUsedWords] = useState([]);
     const [selectedWord, setSelectedWord] = useState(null);
+
+    useEffect(() => {
+        if (teams.length === 0) return;
+        const handleBeforeUnload = (event) => {
+            event.preventDefault();
+            event.returnValue = "";
+        };
+        window.addEventListener("beforeunload", handleBeforeUnload);
+        return () => {
+            window.removeEventListener("beforeunload", handleBeforeUnload);
+        };
+    }, [teams.length]);
 
     // ─── Equipes ───────────────────────────────────────────
     function addTeam() {
