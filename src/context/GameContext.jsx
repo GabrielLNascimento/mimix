@@ -142,11 +142,8 @@ export function GameProvider({ children }) {
 
     // ─── Palavras───────────────────────────────────────────
     function generateRoundWords(n = 3) {
-        let words = [];
-        setUsedWords((prev) => {
-            words = getRandomWords(prev, n);
-            return [...prev, ...words];
-        });
+        const words = getRandomWords(usedWords, n);
+        setUsedWords((prev) => [...prev, ...words]);
         return words;
     }
 
